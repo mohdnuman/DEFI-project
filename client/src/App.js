@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Controller from "./controller";
+import web3 from "./web3";
 
 class App extends Component {
 
@@ -33,6 +34,7 @@ class App extends Component {
       <div>
         <nav>
           <p id="logo">Nebula Finance</p>
+          <button className='connect-button'>Connect Wallet</button>
         </nav>
         <table className='middle-banner'>
           <tr>
@@ -48,7 +50,7 @@ class App extends Component {
           </tr>
           <tr>
             <td colSpan={3} className='controller-box'>
-            {this.state.activeBlock==="USDT" && <Controller token="USDT"/>}
+            {this.state.activeBlock==="USDT" && <Controller token="USDT" />}
             {this.state.activeBlock==="USDC" && <Controller token="USDC"/>}
             {this.state.activeBlock==="DAI" && <Controller token="DAI"/>}
             </td>
