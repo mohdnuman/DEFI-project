@@ -5,13 +5,12 @@ import dai from "./contracts/dai";
 import master from "./contracts/masterContract";
 import web3 from "./web3";
 
-class deposit extends Component {
+class withdraw extends Component {
   constructor(props) {
     super(props);
     this.state = {
       tokenBalance: "",
       currentToken: "",
-      depositAmount: 0,
     };
   }
 
@@ -71,7 +70,7 @@ class deposit extends Component {
           accounts[0],
           "0xb7E355b2c61d3e4F9D0ffcf0bC863aEefDF8F8DE"
         )
-        .call()
+        .call();
       this.setState({
         tokenBalance: daiBal,
         tokenInstance: dai,
@@ -82,44 +81,22 @@ class deposit extends Component {
     }
   }
 
-  handleMax = () => {
-    this.setState({
-      depositAmount: this.state.tokenBalance,
-    });
-  };
+ 
 
-  handleChange = (e) => {
-    this.setState({
-      depositAmount: e.target.value,
-    });
-  };
-
-  handleSubmit = async (event) => {
-    event.preventDefault();
+  handleSubmit = async (e) => {
+    e.preventDefault();
     const accounts = await web3.eth.getAccounts();
     if (this.props.token === "USDT") {
-      let approval = await usdt.methods
-        .approve(
-          "0x0D0ff607F3519A293e03DAB6D8B6560378C53B2A",
-          this.state.depositAmount
-        )
-        .send({ from: accounts[0] });
-      let depTRX = await master.methods
-        .deposit(this.state.currentToken, this.state.depositAmount)
+      let witTRX = await master.methods
+        .withdraw(this.state.currentToken)
         .send({ from: accounts[0] });
     } else if (this.props.token === "USDC") {
-      let approval = await usdc.methods
-        .approve(
-          "0x0D0ff607F3519A293e03DAB6D8B6560378C53B2A",
-          this.state.depositAmount
-        )
+      let witTRX = await master.methods
+        .withdraw(this.state.currentToken)
         .send({ from: accounts[0] });
     } else if (this.props.token === "DAI") {
-      let approval = await dai.methods
-        .approve(
-          "0x0D0ff607F3519A293e03DAB6D8B6560378C53B2A",
-          this.state.depositAmount
-        )
+      let witTRX = await master.methods
+        .withdraw(this.state.currentToken)
         .send({ from: accounts[0] });
     }
   };
@@ -127,29 +104,13 @@ class deposit extends Component {
   render() {
     return (
       <div>
-        {this.props.token} Balance: {this.state.tokenBalance}
-        <div>
-          Deposited {this.props.token}: {this.state.tokenSupplied}
-        </div>
-        <div>
-          Borrowed {this.props.token}: {this.state.tokenBorrowed}
-        </div>
-        <div>
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="number"
-              name="depositAmount"
-              value={this.state.depositAmount}
-              onChange={this.handleChange}
-            />
-            <button onClick={this.handleMax}>Max</button>
-            <br />
-            <button type="submit">Deposit</button>
-          </form>
-        </div>
+        {this.props.token} Supplied:{this.state.tokenSupplied}
+        <form onSubmit={this.handleSubmit}>
+          <button type="submit">Withdraw</button>
+        </form>
       </div>
     );
   }
 }
 
-export default deposit;
+export default withdraw;

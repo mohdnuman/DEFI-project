@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import Deposit from "./deposit";
+import Deposit from "./Deposit";
+import Withdraw from "./Withdraw";
+import Repay from "./Repay";
+import Borrow from "./Borrow";
 
 
 class controller extends Component {
@@ -50,9 +53,9 @@ class controller extends Component {
           <tr>
             <td colSpan={4}>
               {this.state.activeBlock === "deposit" && <Deposit token={this.props.token}/>}
-              {this.state.activeBlock === "withdraw" &&  <div>withdraw {this.props.token}</div> }
-              {this.state.activeBlock === "repay" &&  <div>repay {this.props.token}</div>}
-              {this.state.activeBlock === "borrow" &&  <div>borrow {this.props.token}</div>}
+              {this.state.activeBlock === "withdraw" &&  <Withdraw token={this.props.token}/> }
+              {this.state.activeBlock === "repay" &&  <Repay token={this.props.token}/>}
+              {this.state.activeBlock === "borrow" &&  <Borrow token={this.props.token}/>}
 
             </td>
           </tr>
